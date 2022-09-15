@@ -1,2 +1,2 @@
-# Codelitt Calendar 
+# Codelitt Calendar app using flutter
 
