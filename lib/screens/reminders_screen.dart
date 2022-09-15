@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/reminders.dart';
+import 'package:provider/provider.dart';
+import '../providers/reminders.dart';
 import '../widgets/calendar.dart';
 import '../widgets/app_header.dart';
 import '../widgets/no_reminders.dart';
@@ -12,6 +13,7 @@ class RemindersScreen extends StatefulWidget {
 }
 
 class _RemindersScreenState extends State<RemindersScreen> {
+  DateTime _selectedDate = DateTime.now();
   void _openCalendar(BuildContext buildContext) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -19,33 +21,40 @@ class _RemindersScreenState extends State<RemindersScreen> {
         builder: (_) {
           return GestureDetector(
             onTap: () {},
-            child: Calendar(),
             behavior: HitTestBehavior.opaque,
+            child: Calendar(
+                selectedDate: _selectedDate,
+                onSelectedDateChanged: (DateTime selectedDate) {
+                  setState(() {
+                    _selectedDate = selectedDate;
+                  });
+                }),
           );
         });
   }
 
-  bool get _noReminders {
-    return DUMMY_REMINDERS.isEmpty;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final reminders = Provider.of<Reminders>(context,
+            listen:
+                true //this has true as default and we can use false when we do not need to rebuild the widget when something changes in the provider
+            )
+        .remindersByDate(_selectedDate);
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            AppHeader(),
-            _noReminders
+            AppHeader(_selectedDate),
+            reminders.isEmpty
                 ? NoReminders()
                 : Expanded(
                     flex: 1,
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       child: ListView.builder(
-                        itemCount: DUMMY_REMINDERS.length,
+                        itemCount: reminders.length,
                         itemBuilder: ((context, index) =>
-                            ReminderCard(DUMMY_REMINDERS[index])),
+                            ReminderCard(reminders[index])),
                       ),
                     ),
                   )

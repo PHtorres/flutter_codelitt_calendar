@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../providers/reminders.dart';
 import '../theme/colors.dart';
 import '../theme/box_decoration.dart';
 import '../utils/calendar_utils.dart';
 
-class Calendar extends StatefulWidget {
-  const Calendar({Key? key}) : super(key: key);
-
-  @override
-  _CalendarState createState() => _CalendarState();
-}
-
-class _CalendarState extends State<Calendar> {
+class Calendar extends StatelessWidget {
+  final Function onSelectedDateChanged;
+  final DateTime selectedDate;
+  Calendar(
+      {Key? key,
+      required this.onSelectedDateChanged,
+      required this.selectedDate})
+      : super(key: key);
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay = DateTime.now();
+  //DateTime? _selectedDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    final allReminders = Provider.of<Reminders>(context).items;
     return Container(
       decoration: AppBoxDecoration.calendar,
       padding: const EdgeInsets.all(10),
@@ -58,34 +61,26 @@ class _CalendarState extends State<Calendar> {
             calendarFormat: CalendarFormat.month,
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, day, events) {
-                //if we have reminders in this day return the follow container, if not, return null
-                return Container(
-                  height: 5,
-                  margin: const EdgeInsets.only(bottom: 30, left: 20),
-                  decoration: const BoxDecoration(
-                      color: markerColor, shape: BoxShape.circle),
-                );
+                if (allReminders.any((item) => isSameDay(item.dateTime, day))) {
+                  return Container(
+                    height: 5,
+                    margin: const EdgeInsets.only(bottom: 30, left: 20),
+                    decoration: const BoxDecoration(
+                        color: markerColor, shape: BoxShape.circle),
+                  );
+                }
               },
             ),
             selectedDayPredicate: (day) {
-              // Use `selectedDayPredicate` to determine which day is currently selected.
-              // If this returns true, then `day` will be marked as selected.
-
-              // Using `isSameDay` is recommended to disregard
-              // the time-part of compared DateTime objects.
-              return isSameDay(_selectedDay, day);
+              return isSameDay(selectedDate, day);
             },
             onDaySelected: (selectedDay, focusedDay) {
-              if (!isSameDay(_selectedDay, selectedDay)) {
-                // Call `setState()` when updating the selected day
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                });
+              if (!isSameDay(selectedDate, selectedDay)) {
+                onSelectedDateChanged(selectedDay);
+                Navigator.pop(context);
               }
             },
             onPageChanged: (focusedDay) {
-              // No need to call `setState()` here
               _focusedDay = focusedDay;
             },
           ),

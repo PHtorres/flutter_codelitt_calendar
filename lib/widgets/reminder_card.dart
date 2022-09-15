@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/reminder.dart';
+import '../screens/edit_reminder_screen.dart';
 import '../theme/colors.dart';
 
 class ReminderCard extends StatelessWidget {
@@ -9,10 +10,15 @@ class ReminderCard extends StatelessWidget {
 
   const ReminderCard(this.reminder, {Key? key}) : super(key: key);
 
+  void selectReminder(BuildContext context) {
+    Navigator.pushNamed(context, EditReminderScreen.routeName,
+        arguments: reminder);
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => selectReminder(context),
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -45,11 +51,11 @@ class ReminderCard extends StatelessWidget {
                       Text(
                         reminder.title,
                         style:
-                            const TextStyle(color: Colors.grey, fontSize: 12),
+                            const TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                       Text(
                         reminder.description,
-                        style: const TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 16),
                       )
                     ],
                   ),

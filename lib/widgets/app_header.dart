@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../screens/add_reminder_screen.dart';
 import '../constants/date.dart';
 import '../theme/box_decoration.dart';
 
 class AppHeader extends StatelessWidget {
+  final date;
+  const AppHeader(this.date, {Key? key}) : super(key: key);
+
   void _goToAddReminder(BuildContext context) {
-    Navigator.pushNamed(context, AddReminder.routeName);
+    Navigator.pushNamed(context, AddReminderScreen.routeName);
   }
 
   @override
@@ -16,7 +20,7 @@ class AppHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              todayText,
+              DateFormat.yMMMMEEEEd().format(date),
               style: const TextStyle(
                 fontSize: 16,
               ),
