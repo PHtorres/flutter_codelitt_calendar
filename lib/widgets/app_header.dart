@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../screens/add_reminder_screen.dart';
 import '../constants/date.dart';
 import '../theme/box_decoration.dart';
+import 'page_title.dart';
 
 class AppHeader extends StatelessWidget {
   final date;
@@ -19,11 +20,8 @@ class AppHeader extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              DateFormat.yMMMMEEEEd().format(date),
-              style: const TextStyle(
-                fontSize: 16,
-              ),
+            PageTitle(
+              title: DateFormat.yMMMMEEEEd().format(date),
             ),
             InkWell(
               onTap: () => _goToAddReminder(context),

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app.dart';
 import 'colors.dart';
 
 class AppBoxDecoration {
-  static const BoxDecoration calendar = BoxDecoration(
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-      gradient: LinearGradient(
+  static BoxDecoration calendar = BoxDecoration(
+      borderRadius: isDesktop
+          ? const BorderRadius.only(
+              topRight: Radius.circular(20), bottomRight: Radius.circular(20))
+          : const BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      gradient: const LinearGradient(
           colors: [startPrimaryColor, endPrimaryColor],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter));

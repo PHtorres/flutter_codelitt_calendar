@@ -11,10 +11,10 @@ class NoReminders extends StatelessWidget {
           height: 230,
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 20,
       ),
-      Text(
+      const Text(
         'No reminders registered so far',
         style: TextStyle(color: Colors.grey, fontSize: 14),
       )

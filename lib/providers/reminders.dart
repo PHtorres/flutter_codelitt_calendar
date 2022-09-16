@@ -6,13 +6,27 @@ import '../models/reminder.dart';
 
 class Reminders with ChangeNotifier {
   List<Reminder> _items = DUMMY_REMINDERS;
+  DateTime _selectedDate = DateTime.now();
 
   List<Reminder> get items {
     return [..._items];
   }
 
-  List<Reminder> remindersByDate(DateTime date) {
-    return _items.where((item) => isSameDay(item.dateTime, date)).toList();
+  DateTime get selectedDate {
+    return _selectedDate;
+  }
+
+  List<Reminder> remindersBySelectedDate() {
+    _items.sort(((a, b) => a.dateTime.compareTo(b.dateTime)));
+    print(selectedDate);
+    return _items
+        .where((item) => isSameDay(item.dateTime, _selectedDate))
+        .toList();
+  }
+
+  void setSelectedDate(DateTime date) {
+    _selectedDate = date;
+    notifyListeners();
   }
 
   void addReminder(Reminder reminder) {

@@ -9,3 +9,4 @@ const Color markerColor = Color.fromRGBO(0, 255, 204, 1);
 const Color shadowColor = Color.fromRGBO(209, 220, 240, 1);
 const Color dangerColor = Color.fromRGBO(212, 34, 34, 1);
 const Color cancelColor = Color.fromRGBO(98, 98, 98, 1);
+const Color desktopBackgroundColor = Color.fromRGBO(235, 243, 254, 1);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../constants/app.dart';
 import '../constants/reminder_colors.dart';
 import '../models/reminder.dart';
 import '../theme/colors.dart';
@@ -112,10 +113,11 @@ class _ReminderFormState extends State<ReminderForm> {
 
   Widget _buildDateTimeField(
       String label, String value, Function onTap, BuildContext context) {
-    return InkWell(
-      onTap: () => onTap(),
-      child: Container(
-          width: MediaQuery.of(context).size.width * 0.45,
+    return Expanded(
+      flex: 1,
+      child: InkWell(
+        onTap: () => onTap(),
+        child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey, width: 1.0),
@@ -132,7 +134,9 @@ class _ReminderFormState extends State<ReminderForm> {
                 style: const TextStyle(fontSize: 16),
               )
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 
@@ -184,14 +188,22 @@ class _ReminderFormState extends State<ReminderForm> {
                 keyboardType: TextInputType.multiline,
               ),
               _buildFormDivider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildDateTimeField(
-                      'Date:', _formattedDate, _showDatePicker, context),
-                  _buildDateTimeField(
-                      'Time:', _formattedTime, _showTimePicker, context),
-                ],
+              SizedBox(
+                width: isDesktop
+                    ? MediaQuery.of(context).size.width * 0.5
+                    : double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildDateTimeField(
+                        'Date:', _formattedDate, _showDatePicker, context),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    _buildDateTimeField(
+                        'Time:', _formattedTime, _showTimePicker, context),
+                  ],
+                ),
               ),
               _buildFormDivider(),
               Column(
@@ -204,7 +216,9 @@ class _ReminderFormState extends State<ReminderForm> {
                   _buildFormDivider(),
                   SizedBox(
                     height: 60,
-                    width: double.infinity,
+                    width: isDesktop
+                        ? MediaQuery.of(context).size.width * 0.5
+                        : double.infinity,
                     child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: reminderColors

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../constants/app.dart';
 import '../providers/reminders.dart';
 import '../theme/colors.dart';
 import '../theme/box_decoration.dart';
@@ -77,7 +78,7 @@ class Calendar extends StatelessWidget {
             onDaySelected: (selectedDay, focusedDay) {
               if (!isSameDay(selectedDate, selectedDay)) {
                 onSelectedDateChanged(selectedDay);
-                Navigator.pop(context);
+                if(!isDesktop) Navigator.pop(context);
               }
             },
             onPageChanged: (focusedDay) {

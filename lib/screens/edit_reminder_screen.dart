@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../models/reminder.dart';
 import '../providers/reminders.dart';
+import '../widgets/page_title.dart';
 import '../widgets/reminder_form.dart';
 
 class EditReminderScreen extends StatelessWidget {
@@ -50,15 +51,11 @@ class EditReminderScreen extends StatelessWidget {
   }
 
   Widget _buildHeader(Reminder reminder) {
-    // ignore: sized_box_for_whitespace
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      child: Text(
-        'Edit reminder - ${DateFormat.yMMMMEEEEd().format(reminder.dateTime)}',
-        style: const TextStyle(
-          fontSize: 16,
-        ),
-      ),
+      child: PageTitle(
+          title:
+              'Edit reminder - ${DateFormat.yMMMMEEEEd().format(reminder.dateTime)}'),
     );
   }
 

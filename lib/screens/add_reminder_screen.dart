@@ -5,6 +5,7 @@ import '../constants/date.dart';
 import '../models/reminder.dart';
 import '../providers/reminders.dart';
 import '../utils/reminder.dart';
+import '../widgets/page_title.dart';
 import '../widgets/reminder_form.dart';
 
 class AddReminderScreen extends StatelessWidget {
@@ -42,12 +43,7 @@ class AddReminderScreen extends StatelessWidget {
     // ignore: sized_box_for_whitespace
     return Container(
       width: double.infinity,
-      child: Text(
-        'Add reminder - $todayText',
-        style: const TextStyle(
-          fontSize: 16,
-        ),
-      ),
+      child: PageTitle(title: 'Add reminder - $todayText'),
     );
   }
 
